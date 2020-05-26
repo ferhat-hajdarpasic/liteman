@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
 import { Button } from '@storybook/react/demo';
 import { LedCanvas } from '../LedCanvas';
@@ -26,6 +26,10 @@ export const LED = () => (
 );
 
 export const JS_PIXEL_LED = () => (
-    <JsPixelFontsCanvas text="fred" font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)">
-    </JsPixelFontsCanvas>
+    <Fragment>
+        <JsPixelFontsCanvas text="Fred           " font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" />
+        <JsPixelFontsCanvas text="Hajdarpasic" font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" />
+        <JsPixelFontsCanvas text="Lived" font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" />
+        <JsPixelFontsCanvas text="Here!      " font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" />
+    </Fragment>
 );
