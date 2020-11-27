@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
 import { Button } from '@storybook/react/demo';
 import { LedCanvas } from '../LedCanvas';
-import { JsPixelFontsCanvas } from '../JsPixelFontsCanvas';
+import { PixelPanel } from '../PixelPanel';
 import { useState } from 'react';
 
 var { fonts } = require("js-pixel-fonts");
@@ -38,7 +38,13 @@ export const JS_PIXEL_LED = () => {
             <input value={line3} onChange={e => setLine3(e.target.value)} type="text" />
             <input value={line4} onChange={e => setLine4(e.target.value)} type="text" />
         </div>
-        <JsPixelFontsCanvas line1={line1} font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" />
+        <PixelPanel 
+            line1={line1} 
+            line2={line2} 
+            line3={line3} 
+            line4={line4} 
+            font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" 
+        />
         {/* <JsPixelFontsCanvas text="Hajdarpasic" font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" /> */}
         {/* <JsPixelFontsCanvas text="Lived" font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" /> */}
         {/* <JsPixelFontsCanvas text="Here!      " font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" /> */}

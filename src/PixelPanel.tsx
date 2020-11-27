@@ -22,7 +22,8 @@ interface State {
 const SINGLE_LED_RADIUS = 6;
 const LED_SPACING = 4;
 const LED_CENTERS_DISTANCE = 2 * SINGLE_LED_RADIUS + LED_SPACING;
-export class JsPixelFontsCanvas extends React.Component<Props, State> {
+const LINE_HEIGHT = 7; //Pixels
+export class PixelPanel extends React.Component<Props, State> {
     canvasRef: React.RefObject<HTMLCanvasElement> = React.createRef();
     constructor(props: Props) {
         super(props)
@@ -33,7 +34,7 @@ export class JsPixelFontsCanvas extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        // this.draw();
+        this.clear();
     }
 
     componentDidUpdate() {
@@ -42,8 +43,14 @@ export class JsPixelFontsCanvas extends React.Component<Props, State> {
 
     draw() {
         this.clear();
-        console.log(`text=${this.props.line1}`);
-        const pixels = renderPixels(this.props.line1, sixPlus);
+        this.drawLine(this.props.line1, 1);
+        this.drawLine(this.props.line2, 2);
+        this.drawLine(this.props.line3, 3);
+        this.drawLine(this.props.line4, 4);
+    }
+
+    private drawLine(line: string, lineNo: number) {
+        const pixels = renderPixels(line, sixPlus);
         const ctx = this.canvasRef.current?.getContext("2d");
         console.log(`${JSON.stringify(pixels)}`);
         const width = pixels.reduce((acc: any, cur: any) => Math.max(0, cur.length), 0);
@@ -51,35 +58,33 @@ export class JsPixelFontsCanvas extends React.Component<Props, State> {
 
         if (ctx) {
             ctx.fillStyle = "#FCF300";
-            for (let y = 0; y < height; ++y) {
-                for (let x = 0; x < width; ++x) {
-                    ctx.strokeStyle = pixels[y][x] ? this.props.foreground : "#616161";
+            for (let rowIndex = 0; rowIndex < height; ++rowIndex) {
+                for (let columnIndex = 0; columnIndex < width; ++columnIndex) {
                     ctx.beginPath();
-                    ctx.ellipse(10 + LED_CENTERS_DISTANCE * x, 10 + LED_CENTERS_DISTANCE * y, SINGLE_LED_RADIUS, SINGLE_LED_RADIUS, 0, 0, Math.PI * 2, false);
-                    if (pixels[y][x]) {
+                    this.drawPixel(ctx, columnIndex, rowIndex + LINE_HEIGHT * (lineNo - 1) + ((lineNo > 2)?1:0));
+                    if (pixels[rowIndex][columnIndex]) {
                         ctx.fill();
-                    } else {
-                        ctx.stroke();
                     }
                 }
             }
         }
     }
 
+    private drawPixel(ctx: CanvasRenderingContext2D, columnIndex: number, rowIndex: number) {
+        ctx.ellipse(10 + LED_CENTERS_DISTANCE * columnIndex, 10 + LED_CENTERS_DISTANCE * rowIndex, SINGLE_LED_RADIUS, SINGLE_LED_RADIUS, 0, 0, Math.PI * 2, false);
+    }
+
     clear() {
-        console.log(`text=${this.props.line1}`);
         const ctx = this.canvasRef.current?.getContext("2d");
 
         ctx?.clearRect(0,0,this.state.canvasWidth, this.state.canvasHeight);
         if (ctx) {
-            for (let y = 0; y < this.state.canvasHeight; ++y) {
-                for (let x = 0; x < this.state.canvasWidth; ++x) {
-                    for (let component = 0; component < 4; ++component) {
-                        ctx.strokeStyle = "#616161";
-                        ctx.beginPath();
-                        ctx.ellipse(10 + LED_CENTERS_DISTANCE * x, 10 + LED_CENTERS_DISTANCE * y, SINGLE_LED_RADIUS, SINGLE_LED_RADIUS, 0, 0, Math.PI * 2, false);
-                        ctx.stroke();
-                    }
+            for (let rowIndex = 0; rowIndex < this.state.canvasHeight; ++rowIndex) {
+                for (let columnIndex = 0; columnIndex < this.state.canvasWidth; ++columnIndex) {
+                    ctx.strokeStyle = "#616161";
+                    ctx.beginPath();
+                    this.drawPixel(ctx, columnIndex, rowIndex);
+                    ctx.stroke();
                 }
             }
         }
