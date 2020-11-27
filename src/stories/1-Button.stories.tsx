@@ -27,12 +27,20 @@ export const LED = () => (
 );
 
 export const JS_PIXEL_LED = () => {
-  const [text, setText] = useState("FRED");
-  return <Fragment>
-      <input value={text} onChange={e => setText(e.target.value)} type="text" />
-        <JsPixelFontsCanvas text={text} font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" />
+  const [line1, setLine1] = useState("");
+  const [line2, setLine2] = useState("");
+  const [line3, setLine3] = useState("");
+  const [line4, setLine4] = useState("");
+  return <div style={{display: "flex",flexWrap: "nowrap"}}>
+        <div style={{display: "flex", flexDirection:"column", marginRight:"50px"}}>
+            <input value={line1} onChange={e => setLine1(e.target.value)} type="text" />
+            <input value={line2} onChange={e => setLine2(e.target.value)} type="text" />
+            <input value={line3} onChange={e => setLine3(e.target.value)} type="text" />
+            <input value={line4} onChange={e => setLine4(e.target.value)} type="text" />
+        </div>
+        <JsPixelFontsCanvas line1={line1} font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" />
         {/* <JsPixelFontsCanvas text="Hajdarpasic" font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" /> */}
         {/* <JsPixelFontsCanvas text="Lived" font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" /> */}
         {/* <JsPixelFontsCanvas text="Here!      " font={fonts.sevenPlus} foreground="rgba(50,50,0,0.5)" background="rgba(100,0,0,0.5)" /> */}
-    </Fragment>
+    </div>
 };
